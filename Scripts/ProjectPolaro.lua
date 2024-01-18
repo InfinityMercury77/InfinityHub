@@ -66,12 +66,16 @@ local Tabs = {
         Title = "Wormhole",
         Icon = "rbxassetid://4483362458"
     }),
+    bossTab = Window:AddTab({
+        Title = "Bosses",
+        Icon = "rbxassetid://4483362458"
+    }),
     teleportTab = Window:AddTab({
         Title = "Teleport",
         Icon = "rbxassetid://4483362458"
     }),
     serverTab = Window:AddTab({
-        Title = "Server",
+        Title = "Others",
         Icon = "rbxassetid://4483362458"
     })
 }
@@ -82,7 +86,7 @@ local Tabs = {
 Tabs.welcomeTab:AddSection('[ Welcome 😁 ]')
 Tabs.welcomeTab:AddParagraph({
     Title = "Welcome to Infinity Hub: "..game.Players.LocalPlayer.Name, "Have fun",
-    Content = "Version 2.0"
+    Content = "Version 2.0.1"
 })
 Tabs.welcomeTab:AddParagraph({
     Title = "Discord Server",
@@ -204,13 +208,56 @@ Tabs.wormholeTab:AddButton({
         local findPart = 'Wormhole'
         for _, v in pairs(workspace:GetChildren()) do
             if (string.find(findPart, v.Name) and v:IsA('Model')) then
-                print('Spawned')
+                Fluent:Notify({
+                    Title = "Wormhole Check Spawn",
+                    Content = "Wormhole Spawned",
+                    Duration = 5
+                })
                 return
             else
-                print('Not')
+                Fluent:Notify({
+                    Title = "Wormhole Check Spawn",
+                    Content = "Wormhole Not Spawned",
+                    Duration = 5
+                })
                 return
             end
         end
+    end
+})
+
+
+Tabs.wormholeTab:AddSection('[ Bosses Menus ]')
+local Input = Tabs.wormholeTab:AddInput("", {
+    Title = "Enter Boss Name",
+    Default = "",
+    Placeholder = "...",
+    Numeric = false,
+    Finished = false,
+    Callback = function(Text)
+        getgenv().BossName = Text
+    end
+})
+Tabs.wormholeTab:AddButton({
+    Title = "Check Bosses",
+    Description = "",
+    Callback = function()
+        for _, v in pairs(workspace.Bosses:GetChildren()) do
+            if v:IsA('Model') then
+                Fluent:Notify({
+                    Title = "Bosses Check",
+                    Content = "Boss Name: "..v,
+                    Duration = 5
+                })
+            end
+        end
+    end
+})
+Tabs.wormholeTab:AddButton({
+    Title = "Teleport Boss Selected",
+    Description = "",
+    Callback = function()
+        Teleport(workspace.Bosses[getgenv().BossName], true, false)
     end
 })
 
@@ -228,7 +275,7 @@ for _, v in next, teleportNpc do
 end
 
 
-Tabs.serverTab:AddSection('[ Server Menu ]')
+Tabs.serverTab:AddSection('[ Others Options ]')
 Tabs.serverTab:AddButton({
     Title = "Rejoin Small Server",
     Description = "",
@@ -248,6 +295,13 @@ Tabs.serverTab:AddButton({
           Next = Servers.nextPageCursor
         until Server
         TPS:TeleportToPlaceInstance(_place,Server.id,game.Players.LocalPlayer)
+    end
+})
+Tabs.serverTab:AddButton({
+    Title = "Open Taxi Gui",
+    Description = "",
+    Callback = function()
+        game:GetService("Players").LocalPlayer.PlayerGui.Main.Taxi.Visible = true
     end
 })
 
