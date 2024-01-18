@@ -23,7 +23,6 @@ function GetOppPokemon()
 		return v
 	end
 end
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Darkzao/Darkzao/main/Mudules/Button.lua"))()
 local queue_on_teleport = queue_on_teleport or syn and syn.queue_on_teleport
 queue_on_teleport[[
     repeat wait() until game:IsLoaded() print("ServerHoped or rejoined")
@@ -34,6 +33,7 @@ queue_on_teleport[[
 
 
 -- Library
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Darkzao/Darkzao/main/Mudules/Button.lua"))()
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local Window = Fluent:CreateWindow({
     Title = "Infinity Hub  |  Project Polaro",
@@ -74,8 +74,8 @@ local Tabs = {
         Title = "Teleport",
         Icon = "rbxassetid://4483362458"
     }),
-    serverTab = Window:AddTab({
-        Title = "Others",
+    miscTab = Window:AddTab({
+        Title = "Misc",
         Icon = "rbxassetid://4483362458"
     })
 }
@@ -227,8 +227,8 @@ Tabs.wormholeTab:AddButton({
 })
 
 
-Tabs.wormholeTab:AddSection('[ Bosses Menus ]')
-local Input = Tabs.wormholeTab:AddInput("", {
+Tabs.bossTab:AddSection('[ Bosses Menus ]')
+local Input = Tabs.bossTab:AddInput("", {
     Title = "Enter Boss Name",
     Default = "",
     Placeholder = "...",
@@ -238,7 +238,7 @@ local Input = Tabs.wormholeTab:AddInput("", {
         getgenv().BossName = Text
     end
 })
-Tabs.wormholeTab:AddButton({
+Tabs.bossTab:AddButton({
     Title = "Check Bosses",
     Description = "",
     Callback = function()
@@ -246,14 +246,14 @@ Tabs.wormholeTab:AddButton({
             if v:IsA('Model') then
                 Fluent:Notify({
                     Title = "Bosses Check",
-                    Content = "Boss Name: "..v,
+                    Content = "Boss Name: "..v.Name,
                     Duration = 5
                 })
             end
         end
     end
 })
-Tabs.wormholeTab:AddButton({
+Tabs.bossTab:AddButton({
     Title = "Teleport Boss Selected",
     Description = "",
     Callback = function()
@@ -275,8 +275,8 @@ for _, v in next, teleportNpc do
 end
 
 
-Tabs.serverTab:AddSection('[ Others Options ]')
-Tabs.serverTab:AddButton({
+Tabs.miscTab:AddSection('[ Misc Options ]')
+Tabs.miscTab:AddButton({
     Title = "Rejoin Small Server",
     Description = "",
     Callback = function()
@@ -294,16 +294,23 @@ Tabs.serverTab:AddButton({
           Server = Servers.data[1]
           Next = Servers.nextPageCursor
         until Server
-        TPS:TeleportToPlaceInstance(_place,Server.id,game.Players.LocalPlayer)
+        TPS:TeleportToPlaceInstance(_place, Server.id, game.Players.LocalPlayer)
     end
 })
-Tabs.serverTab:AddButton({
+Tabs.miscTab:AddButton({
     Title = "Open Taxi Gui",
     Description = "",
     Callback = function()
         game:GetService("Players").LocalPlayer.PlayerGui.Main.Taxi.Visible = true
     end
 })
+local AutoSaveGameToggle = Tabs.miscTab:AddToggle("", {Title = "Auto Save Game (6 seconds)", Default = false })
+AutoSaveGameToggle:OnChanged(function(bool)
+    autoSaveGame = bool
+    while autoSaveGame do task.wait(6)
+        game:GetService("ReplicatedStorage").REvents.Internal.Save:InvokeServer()
+    end
+end)
 
 
 
