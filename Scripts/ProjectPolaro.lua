@@ -86,7 +86,7 @@ local Tabs = {
 Tabs.welcomeTab:AddSection('[ Welcome 😁 ]')
 Tabs.welcomeTab:AddParagraph({
     Title = "Welcome to Infinity Hub: "..game.Players.LocalPlayer.Name, "Have fun",
-    Content = "Version 2.0.1"
+    Content = "Version 2.0.2"
 })
 Tabs.welcomeTab:AddParagraph({
     Title = "Discord Server",
