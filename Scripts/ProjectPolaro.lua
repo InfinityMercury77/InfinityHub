@@ -34,7 +34,7 @@ queue_on_teleport[[
 
 -- Library
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Darkzao/Darkzao/main/Mudules/Button.lua"))()
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Fluent = loadstring(game:HttpGet("https://github.com/13B8B/nexus/releases/download/nexus/nexus.txt"))()
 local Window = Fluent:CreateWindow({
     Title = "Infinity Hub  |  Project Polaro",
     SubTitle = "Modded by blackaham2266",
@@ -74,6 +74,10 @@ local Tabs = {
         Title = "Teleport",
         Icon = "rbxassetid://4483362458"
     }),
+    playerTab = Window:AddTab({
+        Title = "Players",
+        Icon = "rbxassetid://4483362458"
+    }),
     miscTab = Window:AddTab({
         Title = "Misc",
         Icon = "rbxassetid://4483362458"
@@ -86,7 +90,7 @@ local Tabs = {
 Tabs.welcomeTab:AddSection('[ Welcome 😁 ]')
 Tabs.welcomeTab:AddParagraph({
     Title = "Welcome to Infinity Hub: "..game.Players.LocalPlayer.Name, "Have fun",
-    Content = "Version 2.0.2"
+    Content = "Version 2.0.4"
 })
 Tabs.welcomeTab:AddParagraph({
     Title = "Discord Server",
@@ -207,7 +211,7 @@ Tabs.wormholeTab:AddButton({
     Callback = function()
         local findPart = 'Wormhole'
         for _, v in pairs(workspace:GetChildren()) do
-            if (string.find(findPart, v.Name) and v:IsA('Model')) then
+            if (v:IsA('Model') and v.Name == findPart) then
                 Fluent:Notify({
                     Title = "Wormhole Check Spawn",
                     Content = "Wormhole Spawned",
@@ -273,6 +277,55 @@ for _, v in next, teleportNpc do
         end
     })
 end
+
+
+Tabs.playerTab:AddSection('[ Players Menu ]')
+local PlayersDropdown = Tabs.playerTab:AddDropdown("Dropdown", {
+    Title = "Select Player",
+    Values = {},
+    Multi = false,
+    Default = 'Selected',
+    Callback = function(value)
+        getgenv().PlayerSelected = value
+    end
+})
+local Dropdown = Tabs.playerTab:AddDropdown("Dropdown", {
+    Title = "Select Method: ",
+    Values = {'WorldPivot', 'PivotTo'},
+    Multi = false,
+    Default = 'Selected',
+    Callback = function(value)
+        getgenv().MethodToTp = value
+    end
+})
+function Refresh()
+    local playersName = {}
+    for _, v in pairs(game.Players:GetChildren()) do
+        if v.Name ~= game.Players.LocalPlayer.Name then
+            table.insert(playersName, v.Name)
+        end
+    end
+    return playersName
+end
+Tabs.playerTab:AddButton({
+    Title = "Teleport",
+    Description = "",
+    Callback = function()
+        if getgenv().MethodToTp == 'WorldPivot' then
+            Teleport(workspace[getgenv().PlayerSelected], true, false)
+        end
+        if getgenv().MethodToTp == 'PivotTo' then
+            Teleport(workspace[getgenv().PlayerSelected], false, true)
+        end
+    end
+})
+Tabs.playerTab:AddButton({
+    Title = "Refresh Dropdown",
+    Description = "",
+    Callback = function()
+        PlayersDropdown:SetValues(Refresh())
+    end
+})
 
 
 Tabs.miscTab:AddSection('[ Misc Options ]')
