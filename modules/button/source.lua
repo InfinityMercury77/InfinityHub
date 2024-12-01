@@ -1,22 +1,18 @@
--- (VOID) : Gui to Lua
--- Version: 1.4
-
--- Instances:
-
 local Button = Instance.new("ScreenGui")
 local Close = Instance.new("TextButton")
 local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
 local Icon = Instance.new("ImageButton")
 local UIAspectRatioConstraint_2 = Instance.new("UIAspectRatioConstraint")
 local UICorner = Instance.new("UICorner")
+local hitbox = Instance.new("TextButton")
 local UICorner_2 = Instance.new("UICorner")
 local Open = Instance.new("TextButton")
 local UIAspectRatioConstraint_3 = Instance.new("UIAspectRatioConstraint")
 local Icon_2 = Instance.new("ImageButton")
 local UIAspectRatioConstraint_4 = Instance.new("UIAspectRatioConstraint")
 local UICorner_3 = Instance.new("UICorner")
+local hitbox_2 = Instance.new("TextButton")
 
---Properties:
 
 Button.Name = "Button"
 Button.Parent = (game:GetService("CoreGui") or gethui())
@@ -28,7 +24,7 @@ Close.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 Close.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Close.BorderSizePixel = 0
 Close.Position = UDim2.new(0.112595417, 0, 0.176110268, 0)
-Close.Size = UDim2.new(0.0534351133, 0, 0.0750382766, 0)
+Close.Size = UDim2.new(0.0648854971, 0, 0.102603368, 0)
 Close.AutoButtonColor = false
 Close.Font = Enum.Font.SourceSans
 Close.Text = ""
@@ -53,6 +49,18 @@ UIAspectRatioConstraint_2.AspectRatio = 0.941
 
 UICorner.Parent = Close
 
+hitbox.Name = "hitbox"
+hitbox.Parent = Close
+hitbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+hitbox.BackgroundTransparency = 1.000
+hitbox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+hitbox.BorderSizePixel = 0
+hitbox.Size = UDim2.new(0, 68, 0, 59)
+hitbox.Font = Enum.Font.SourceSans
+hitbox.Text = ""
+hitbox.TextColor3 = Color3.fromRGB(0, 0, 0)
+hitbox.TextSize = 14.000
+
 UICorner_2.Parent = Button
 
 Open.Name = "Open"
@@ -61,7 +69,7 @@ Open.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 Open.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Open.BorderSizePixel = 0
 Open.Position = UDim2.new(0.112595417, 0, 0.176110268, 0)
-Open.Size = UDim2.new(0.0534351133, 0, 0.0750382766, 0)
+Open.Size = UDim2.new(0.0649999976, 0, 0.103, 0)
 Open.Visible = false
 Open.AutoButtonColor = false
 Open.Font = Enum.Font.SourceSans
@@ -87,29 +95,42 @@ UIAspectRatioConstraint_4.AspectRatio = 0.941
 
 UICorner_3.Parent = Open
 
--- Scripts:
+hitbox_2.Name = "hitbox"
+hitbox_2.Parent = Open
+hitbox_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+hitbox_2.BackgroundTransparency = 1.000
+hitbox_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+hitbox_2.BorderSizePixel = 0
+hitbox_2.Size = UDim2.new(0, 68, 0, 59)
+hitbox_2.Font = Enum.Font.SourceSans
+hitbox_2.Text = ""
+hitbox_2.TextColor3 = Color3.fromRGB(0, 0, 0)
+hitbox_2.TextSize = 14.000
 
-local function HROGFLC_fake_script() -- Close.LocalScript 
-	local script = Instance.new('LocalScript', Close)
 
-	local button = script.Parent
-	local open = script.Parent.Parent.Open 
+local function NASSKD_fake_script()
+	local script = Instance.new('LocalScript', hitbox)
+
+	local button = script.Parent.Parent.Parent.Close.hitbox
+	local open = script.Parent.Parent.Parent.Open
 	button.TouchTap:Connect(function()
 		game:GetService('VirtualInputManager'):SendKeyEvent(true, "K", false, lmy)
 		button.Visible = false
 		open.Visible = true
+		print('Close')
 	end)
 end
-coroutine.wrap(HROGFLC_fake_script)()
-local function HGWTFX_fake_script() -- Open.LocalScript 
-	local script = Instance.new('LocalScript', Open)
+coroutine.wrap(NASSKD_fake_script)()
+local function GKBSSI_fake_script()
+	local script = Instance.new('LocalScript', hitbox_2)
 
-	local button = script.Parent
-	local close = script.Parent.Parent.Close 
+	local button = script.Parent.Parent.Parent.Open.hitbox
+	local close = script.Parent.Parent.Parent.Close
 	button.TouchTap:Connect(function()
 		game:GetService('VirtualInputManager'):SendKeyEvent(true, "K", false, lmy)
 		button.Visible = false
 		close.Visible = true
+		print('Open')
 	end)
 end
-coroutine.wrap(HGWTFX_fake_script)()
+coroutine.wrap(GKBSSI_fake_script)()
