@@ -87,7 +87,7 @@ local function SCWKA_fake_script() -- Close.LocalScript
 	local button = script.Parent
 	local open = script.Parent.Parent.Open 
 	button.MouseButton1Click:Connect(function()
-		game:GetService('VirtualInputManager'):SendKeyEvent(true, "E", false, lmy)
+		game:GetService('VirtualInputManager'):SendKeyEvent(true, "K", false, lmy)
 		button.Visible = false
 		open.Visible = true
 	end)
@@ -99,7 +99,7 @@ local function ZYYRVS_fake_script() -- Open.LocalScript
 	local button = script.Parent
 	local close = script.Parent.Parent.Close 
 	button.MouseButton1Click:Connect(function()
-		game:GetService('VirtualInputManager'):SendKeyEvent(true, "E", false, lmy)
+		game:GetService('VirtualInputManager'):SendKeyEvent(true, "K", false, lmy)
 		button.Visible = false
 		close.Visible = true
 	end)
