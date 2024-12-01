@@ -1,7 +1,7 @@
 -- detect service
 local UserInputService = game:GetService("UserInputService")
 if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/InfinityMercury77/InfinityHub/refs/heads/main/modules/button/source.lua",true))()
+	print('Mobile device')
 end
 
 
@@ -825,14 +825,22 @@ local Toggle = ItemTab:CreateToggle({
    Flag = "",
    Callback = function(bool)
       autochest = bool
+      if autochest then
+         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2827.480224609375, 214.8001708984375, 1518.3900146484375)
+      end
+      wait(1.5)
       while autochest do task.wait()
          for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
             if v:IsA('Tool') and v.Name == 'Treasure Map' then
                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
                wait(.5)
-               local remote = workspace.world.npcs["Jack Marrow"].treasure.repairmap
-               local arguments = {}
-               local results = remote:InvokeServer(unpack(arguments))
+               for _, jack in pairs(workspace.world.npcs:GetChildren()) do
+                  if jack:IsA('Model') and jack.Name == 'Jack Marrow' then
+                     local remote = jack.treasure.repairmap
+                     local arguments = {}
+                     local results = remote:InvokeServer(unpack(arguments))
+                  end
+               end
                wait(.1)
                for _, chest in pairs(workspace.world.chests:GetChildren()) do
                   if chest:IsA('Part') then
