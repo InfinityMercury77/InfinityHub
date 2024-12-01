@@ -1,3 +1,11 @@
+-- detect service
+local UserInputService = game:GetService("UserInputService")
+if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/InfinityMercury77/InfinityHub/refs/heads/main/modules/button/source.lua",true))()
+end
+
+
+
 -- variables
 getgenv().Rods = {"Abyssal Spinecaster", "Aurora Rod", "Buddy Bond Rod", "Carbon Rod", "Celestial Rod", "Destiny Rod", "Developers Rod", "Evil Pitchfork of Doom Rod", "Executive Rod", "Fast Rod", "Fischer's Rod", "Flimsy Rod", "Fortune Rod", "Fungal Rod", "Haunted Rod", "Katana Rod", "Kings Rod", "Long Rod", "Lucky Rod", "Magma Rod", "Magnet Rod", "Midas Rod", "Mystic Staff", "Mythical Rod", "No-Life Rod", "No-Life Rod [original]", "Nocturnal Rod", "Pen Rod", "Phoenix Rod", "Plastic Rod", "Precision Rod", "Rapid Rod", "Reinforced Rod", "Relic Rod", "Resourceful Rod", "Riptide Rod", "Rod Of The Depths", "Rod Of The Eternal King", "Rod Of The Forgotten Fang", "Scurvy Rod", "Seasons Rod", "Sovereign Doombringer", "Steady Rod", "Stone Rod", "Sunken Rod", "Test Rod", "Tetra Rod", "The Lost Rod", "The Twig", "Training Rod", "Trident Rod", "Ultratech Rod", "Voyager Rod", "Wisdom Rod"}
 local _Rods = getgenv().Rods
