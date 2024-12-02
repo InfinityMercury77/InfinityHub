@@ -193,7 +193,7 @@ local Toggle = FischTab:CreateToggle({
                if v:IsA('ScreenGui') and v.Name == 'shakeui' then
                   for _, shakebutton in pairs(v:GetDescendants()) do
                      if shakebutton:IsA('ImageButton') and shakebutton.Name == 'button' then
-                        shakebutton:Click()
+                        shakebutton:Activated()
                      end
                   end
                end
