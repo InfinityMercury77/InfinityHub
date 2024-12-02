@@ -197,6 +197,7 @@ local Toggle = FischTab:CreateToggle({
                            if settings:IsA("ImageButton") or settings:IsA("TextButton") and settings.Name == 'button' then
                               for i, Signal in pairs(Signals) do
                                  firesignal(settings[Signal])
+                                 wait(.5)
                               end
                           end
                         end
