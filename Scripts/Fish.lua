@@ -63,7 +63,7 @@ local function removePlatform()
         platform = nil
     end
 end
-local Signals = {"Activated", "MouseButton1Down", "MouseButton2Down", "MouseButton1Click", "MouseButton2Click", "TouchTab"}
+local Signals = {"Activated", "MouseButton1Down", "MouseButton2Down", "MouseButton1Click", "MouseButton2Click"}
 local vim = game:GetService("VirtualInputManager")
 local x = 580
 local y = 350
@@ -188,19 +188,35 @@ local Toggle = FischTab:CreateToggle({
    Callback = function(bool)
       autoShake = bool
       while autoShake do task.wait()
-         for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
-            if v:IsA('ScreenGui') and v.Name == 'shakeui' then
-               for _, shakebutton in pairs(v:GetDescendants()) do
-                  if shakebutton:IsA('ImageButton') and shakebutton.Name == 'button' then
-                     shakebutton.Position = UDim2.new(0.389999986, 0,0.469999999, 0)
+         if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
+            for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
+               if v:IsA('ScreenGui') and v.Name == 'shakeui' then
+                  for _, shakebutton in pairs(v:GetDescendants()) do
+                     if shakebutton:IsA('ImageButton') and shakebutton.Name == 'button' then
+                        for _, settings in pairs(v:GetDescendants()) do
+                           if settings:IsA("ImageButton") or settings:IsA("TextButton") and settings.Name == 'button' then
+                              firesignal(settings.TouchTab)
+                          end
+                        end
+                     end
                   end
                end
-               wait(.2)
-               mousemoveabs(x, y)
-               vim:SendMouseButtonEvent(x, y, 0, true, game, 0)
-               wait()
-               vim:SendMouseButtonEvent(x, y, 0, false, game, 0)
-               wait(.5)
+            end
+         else
+            for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
+               if v:IsA('ScreenGui') and v.Name == 'shakeui' then
+                  for _, shakebutton in pairs(v:GetDescendants()) do
+                     if shakebutton:IsA('ImageButton') and shakebutton.Name == 'button' then
+                        shakebutton.Position = UDim2.new(0.389999986, 0,0.469999999, 0)
+                     end
+                  end
+                  wait(.2)
+                  mousemoveabs(x, y)
+                  vim:SendMouseButtonEvent(x, y, 0, true, game, 0)
+                  wait()
+                  vim:SendMouseButtonEvent(x, y, 0, false, game, 0)
+                  wait(.5)
+               end
             end
          end
       end
