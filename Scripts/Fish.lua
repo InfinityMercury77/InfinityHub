@@ -195,7 +195,9 @@ local Toggle = FischTab:CreateToggle({
                      if shakebutton:IsA('ImageButton') and shakebutton.Name == 'button' then
                         for _, settings in pairs(v:GetDescendants()) do
                            if settings:IsA("ImageButton") or settings:IsA("TextButton") and settings.Name == 'button' then
-                              firesignal(settings.TouchTab)
+                              for i, Signal in pairs(Signals) do
+                                 firesignal(settings[Signal])
+                              end
                           end
                         end
                      end
