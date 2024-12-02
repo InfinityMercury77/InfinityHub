@@ -182,7 +182,7 @@ local Toggle = FischTab:CreateToggle({
    end,
 })
 local Toggle = FischTab:CreateToggle({
-   Name = "Auto shake",
+   Name = "Auto shake (mobile review...)",
    CurrentValue = false,
    Flag = "",
    Callback = function(bool)
