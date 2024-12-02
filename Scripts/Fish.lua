@@ -63,7 +63,7 @@ local function removePlatform()
         platform = nil
     end
 end
-local Signals = {"Activated", "MouseButton1Down", "MouseButton2Down", "MouseButton1Click", "MouseButton2Click"}
+local Signals = {"Activated", "MouseButton1Down", "MouseButton2Down", "MouseButton1Click", "MouseButton2Click", "TouchTab"}
 local vim = game:GetService("VirtualInputManager")
 local x = 580
 local y = 350
@@ -826,6 +826,9 @@ local Toggle = ItemTab:CreateToggle({
    Callback = function(bool)
       autochest = bool
       while autochest do task.wait()
+         if not autochest then
+            return
+         end
          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2827.480224609375, 214.8001708984375, 1518.3900146484375)
          for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
             if v:IsA('Tool') and v.Name == 'Treasure Map' then
@@ -852,9 +855,13 @@ local Toggle = ItemTab:CreateToggle({
       while autoopen do task.wait()
          for _, chest in pairs(workspace.world.chests:GetChildren()) do
             if chest:IsA('Part') then
-               chest.ProximityPrompt.HoldDuration = 0
-               wait(.1)
-               fireproximityprompt(chest.ProximityPrompt);
+               for _, prompt in pairs(chest:GetChildren()) do
+                  if prompt:IsA('ProximityPrompt') then
+                     prompt.HoldDuration = 0
+                     wait(.1)
+                     fireproximityprompt(prompt);
+                  end
+               end
             end
          end
       end
