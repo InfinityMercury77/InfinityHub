@@ -820,16 +820,13 @@ local Button = ItemTab:CreateButton({
 local PositionLabel = ItemTab:CreateLabel("Ancient Fragment is caught fishing", false)
 local Section = ItemTab:CreateSection("[ Auto Chest ]")
 local Toggle = ItemTab:CreateToggle({
-   Name = "Auto open chest",
+   Name = "Auto repair map",
    CurrentValue = false,
    Flag = "",
    Callback = function(bool)
       autochest = bool
-      if autochest then
-         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2827.480224609375, 214.8001708984375, 1518.3900146484375)
-      end
-      wait(1.5)
       while autochest do task.wait()
+         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2827.480224609375, 214.8001708984375, 1518.3900146484375)
          for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
             if v:IsA('Tool') and v.Name == 'Treasure Map' then
                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
@@ -841,13 +838,23 @@ local Toggle = ItemTab:CreateToggle({
                      local results = remote:InvokeServer(unpack(arguments))
                   end
                end
+            end
+         end
+      end
+   end,
+})
+local Toggle = ItemTab:CreateToggle({
+   Name = "Auto open chest",
+   CurrentValue = false,
+   Flag = "",
+   Callback = function(bool)
+      autoopen = bool
+      while autoopen do task.wait()
+         for _, chest in pairs(workspace.world.chests:GetChildren()) do
+            if chest:IsA('Part') then
+               chest.ProximityPrompt.HoldDuration = 0
                wait(.1)
-               for _, chest in pairs(workspace.world.chests:GetChildren()) do
-                  if chest:IsA('Part') then
-                     chest.ProximityPrompt.HoldDuration = 0
-                     fireproximityprompt(chest.ProximityPrompt);
-                  end
-               end
+               fireproximityprompt(chest.ProximityPrompt);
             end
          end
       end
