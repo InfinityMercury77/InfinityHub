@@ -8,13 +8,11 @@ end
 
 -- variables
 function getRod()
-   local rodsName = {}
    for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
       if v:IsA('Tool') and v.Name:lower():find('rod') then
-         table.insert(rodsName, v.Name)
+         return v.Name
       end
    end
-   return rodsName
 end
 getgenv().Fish = {"Abyssacuda", "Acanthodii", "Alligator", "Alligator Gar", "Amberjack", "Amblypterus", "Amethyst", "Anchovy", "Ancient Depth Serpent", "Ancient Eel", "Ancient Fragment", "Ancient Megalodon", "Ancient Serpent Skull", "Ancient Serpent Spine", "Ancient Wood", "Angelfish", "Anglerfish", "Anomalocaris", "Arapaima", "Arctic Char", "Aurora Pearl", "Axolotl", "Baby Pond Emperor", "Bait Crate", "Banditfish", "Barbed Shark", "Barracuda", "Barracuda's Spine", "Barreleye Fish", "Basalt", "Birgeria", "Black Dragon Fish", "Blackfish", "Blue Tang", "Bluefin Tuna", "Bluefish", "Bluegill", "Bone", "Boot", "Bowfin", "Bream", "Brine Phantom", "Brine Shrimp", "Buccaneer Barracuda", "Bull Shark", "Burbot", "Butterflyfish", "Candy Fish", "Captain's Goldfish", "Carbon Crate", "Carp", "Catfish", "Chinfish", "Chinook Salmon", "Chub", "Cladoselache", "Clam", "Claw Gill", "Clownfish", "Cobia", "Cockatoo Squid", "Cod", "Coelacanth", "Colossal Squid", "Common Crate", "Cookiecutter Shark", "Coral Geode", "Corsair Grouper", "Crab", "Crown Bass", "Cursed Eel", "Cutlass Fish", "Deep Pearl", "Deep Sea Fragment", "Deep-sea Dragonfish", "Deep-sea Hatchetfish", "Depth Octopus", "Destroyed Fossil", "Diplurus", "Dolphin", "Driftwood", "Dumbo Octopus", "Dunkleosteus", "Dweller Catfish", "Earth Fragment", "Eel", "Ember Perch", "Ember Snapper", "Emperor Jellyfish", "Enchant Relic", "Eyefestation", "Fangborn Gar", "Fish Barrel", "Floppy", "Flounder", "Flying Fish", "Fossil Fan", "Frilled Shark", "Fungal Cluster", "Galleon Goliath", "Gazerfish", "Ghoulfish", "Gilded Pearl", "Ginsu Shark", "Glacier Pike", "Glacierfish", "Glassfish", "Globe Jellyfish", "Goblin Shark", "Golden Sea Pearl", "Golden Seahorse", "Golden Smallmouth Bass", "Goldfish", "Grayling", "Great Hammerhead Shark", "Great White Shark", "Grey Carp", "Gudgeon", "Haddock", "Halibut", "Hallucigenia", "Handfish", "Helicoprion", "Herring", "Horseshoe Crab", "Hyneria", "Ice", "Inferno Wood", "Isonade", "Keepers Guardian", "King Oyster", "Lapis Lazuli", "Lapisjack", "Largemouth Bass", "Leedsichthys", "Lepidotes", "Lingcod", "Lobster", "Log", "Longtail Bass", "Luminescent Minnow", "Lurkerfish", "Mackerel", "Magma Tang", "Mahi Mahi", "Manta Ray", "Marsh Gar", "Mauve Pearl", "Meg's Fang", "Meg's Spine", "Megalodon", "Midnight Axolotl", "Minnow", "Molten Banshee", "Moon Wood", "Moonfish", "Moonstone", "Mosasaurus", "Mullet", "Mushgrove Crab", "Mussel", "Mutated Shark", "Mythic Fish", "Napoleonfish", "Nautilus", "Nessie", "Nessie's Spine", "Night Shrimp", "Nurse Shark", "Oarfish", "Obsidian Salmon", "Obsidian Swordfish", "Olm", "Onychodus", "Opal", "Oyster", "Palaeoniscum", "Palaeoniscus", "Pale Tang", "Pearl", "Perch", "Phanerorhynchus", "Phantom Megalodon", "Phantom Ray", "Pike", "Piranha", "Pollock", "Pond Emperor", "Porgy", "Prawn", "Pufferfish", "Pumpkinseed", "Pyrogrub", "Quality Bait Crate", "Rabbitfish", "Red Drum", "Red Snapper", "Red Tang", "Redeye Bass", "Reefrunner Snapper", "Ribbon Eel", "Ringle", "Rock", "Rockstar Hermit Crab", "Rose Pearl", "Rubber Ducky", "Ruby", "Sailfish", "Salmon", "Sand Dollar", "Sardine", "Sawfish", "Scallop", "Scrap Metal", "Scurvy Sailfish", "Sea Bass", "Sea Mine", "Sea Pickle", "Sea Snake", "Sea Turtle", "Sea Urchin", "Seaweed", "Shark Fang", "Shipwreck Barracuda", "Shortfin Mako Shark", "Shrimp", "Skelefish", "Skipjack Tuna", "Slate Tuna", "Small Spine Chimera", "Smallmouth Bass", "Snook", "Sockeye Salmon", "Solar Fragment", "Spectral Serpent", "Spider Crab", "Spiderfish", "Spine Blade", "Spine Bone", "Spined Fin", "Squid", "Stalactite", "Starfish", "Stingray", "Sturgeon", "Suckermouth Catfish", "Sunfish", "Swamp Bass", "Swamp Scallop", "Sweetfish", "Swordfish", "The Depths Key", "Three-eyed Fish", "Tire", "Trout", "Trumpetfish", "Turkey", "Twilight Eel", "Umbral Shark", "Void Wood", "Voidfin Mahi", "Volcanic Geode", "Voltfish", "Walleye", "Whale Shark", "Whiptail Catfish", "Whisker Bill", "White Bass", "White Perch", "Wiifish", "Xiphactinus", "Yellow Boxfish", "Yellowfin Tuna", "Zombiefish"}
 local _Fish = getgenv().Fish
@@ -44,6 +42,7 @@ function SafeZone()
    safeZone.CFrame = CFrame.new(3345, 136, -165)
    safeZone.Size = Vector3.new(10, 1, 10)
 end
+SafeZone()
 function getPlayers()
    local playerName = {}
    for _, v in pairs(game:GetService('Players'):GetPlayers()) do
@@ -70,8 +69,8 @@ local function removePlatform()
         platform = nil
     end
 end
-local Signals = {"Activated", "MouseButton1Down", "MouseButton2Down", "MouseButton1Click", "MouseButton2Click"}
 local vim = game:GetService("VirtualInputManager")
+local Signals = {"Activated", "MouseButton1Down", "MouseButton2Down", "MouseButton1Click", "MouseButton2Click"}
 local x = 580
 local y = 350
 
@@ -109,81 +108,25 @@ local SettingsTab = Window:CreateTab("Settings")
 
 
 -- code
-local Section = FischTab:CreateSection("[ Fish Settings ]")
-local MethodsDropdown = FischTab:CreateDropdown({
-   Name = "Select method to fishing",
-   Options = {"Safe zone", "You position"},
-   CurrentOption = '',
-   MultipleOptions = false,
-   Flag = "",
-   Callback = function()
-   end,
-})
-local RodsDropdownD = FischTab:CreateDropdown({
-   Name = "Select rod",
-   Options = getRod(),
-   CurrentOption = '',
-   MultipleOptions = false,
-   Flag = "",
-   Callback = function()
-   end,
-})
-local Button = FischTab:CreateButton({
-   Name = "Refresh dropdown",
-   Callback = function()
-      RodsDropdownD:Refresh(getRod())
-   end,
-})
 local Section = FischTab:CreateSection("[ Fish Farm ]")
 local Toggle = FischTab:CreateToggle({
-   Name = "Auto fishing rod in the water",
+   Name = "Auto cast",
    CurrentValue = false,
    Flag = "",
    Callback = function(bool)
-      Startfishing = bool
-      local method = table.unpack(MethodsDropdown.CurrentOption)
-      local rodD = table.unpack(RodsDropdownD.CurrentOption)
-      if Startfishing then
-         if method == '' or rodD == '' then
-            Rayfield:Notify({
-               Title = "Infinity Hub",
-               Content = "select method or rod first",
-               Duration = 4,
-               Image = 10723415766
-           })
-           wait(.5)
-           return
+      autocast = bool
+      while autocast do task.wait()
+         if not autocast then return end
+         for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if v:IsA('Tool') and v.Name:lower():find('rod') then
+               game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+            end
          end
-      end
-      while Startfishing do task.wait()
-         if method == 'Safe zone' then
-            SafeZone()
-            game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3345, 140, -165)
-            wait(2.5)
-            for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-               if v:IsA('Tool') and v.Name == rodD then
-                  game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-               end
-            end
-            wait(.5)
-            for _, rod in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
-               if rod:IsA('Tool') and rod.Name == rodD then
-                  local args = {[1] = 100, [2] = 1}
-                  rod.events.cast:FireServer(unpack(args))
-               end
-            end
-         elseif method == 'You position' then
-            for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-               if v:IsA('Tool') and v.Name == rodD then
-                  game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-               end
-            end
-            wait(.5)
-            for _, rod in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
-               if rod:IsA('Tool') and rod.Name == rodD then
-                  local args = {[1] = 100, [2] = 1}
-                  rod.events.cast:FireServer(unpack(args))
-               end
+         wait(.5)
+         for _, rod in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
+            if rod:IsA('Tool') and rod.Name:lower():find('rod') then
+               local args = {[1] = 100, [2] = 1}
+               rod.events.cast:FireServer(unpack(args))
             end
          end
       end
@@ -194,42 +137,33 @@ local Toggle = FischTab:CreateToggle({
    CurrentValue = false,
    Flag = "",
    Callback = function(bool)
-      autoShake = bool
-      game:GetService('Players').LocalPlayer.PlayerGui.DescendantAdded:Connect(function(Descendant)
-         if autoShake then
-            if Descendant.Name == 'button' and Descendant.Parent.Name == 'safezone' then
-               task.wait()
-               game:GetService('GuiService').SelectedObject = Descendant
-               vim:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
-               vim:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-               task.wait()
-               game:GetService('GuiService').SelectedObject = nil
+      autoshake = bool
+      while autoshake do task.wait()
+         for _, v in pairs(game:GetService('Players').LocalPlayer.PlayerGui:GetChildren()) do
+            if v:IsA('ScreenGui') and v.Name == 'shakeui' then
+               for _, x in pairs(v:GetDescendants()) do
+                  if x:IsA('ImageButton') and x.Name == 'button' then
+                     game:GetService('GuiService').SelectedObject = x
+                     wait(.0001)
+                     vim:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+                     vim:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+                     wait(.0001)
+                     game:GetService('GuiService').SelectedObject = nil
+                  end
+               end
             end
          end
-      end)
-   end,
-})
-local Toggle = FischTab:CreateToggle({
-   Name = "Auto collect",
-   CurrentValue = false,
-   Flag = "",
-   Callback = function(bool)
-      collect = bool
-      while collect do task.wait()
-         local args = {[1] = 100, [2] = false}
-         game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("reelfinished"):FireServer(unpack(args))
-         game:GetService("Players").LocalPlayer.PlayerGui.hud.Enabled = true
       end
    end,
 })
 local Toggle = FischTab:CreateToggle({
-   Name = "Freeze character",
+   Name = "Auto reel",
    CurrentValue = false,
    Flag = "",
    Callback = function(bool)
-      freeze = bool
-      while freeze do task.wait()
-         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
+      autoreel = bool
+      while autoreel do task.wait()
+         game:GetService('ReplicatedStorage').events.reelfinished:FireServer(100, true)
       end
    end,
 })
@@ -527,6 +461,15 @@ local Toggle = TradeTab:CreateToggle({
    end,
 })
 local Button = TradeTab:CreateButton({
+   Name = "Teleport player",
+   Callback = function()
+      local playerTeleport = table.unpack(PlayerDropdown.CurrentOption)
+      game:GetService('Players').LocalPlayer.Character.HumanoidRootPart:PivotTo(
+         game:GetService('Players')[playerTeleport].Character:GetPivot()
+      )
+   end,
+})
+local Button = TradeTab:CreateButton({
    Name = "Refresh dropdown",
    Callback = function()
       PlayerDropdown:Refresh(getPlayers())
@@ -703,6 +646,12 @@ local Button = VisualTab:CreateButton({
       print(oldLevelText)
    end,
 })
+local Button = VisualTab:CreateButton({
+   Name = "Infinite streak",
+   Callback = function()
+      workspace.Lmy7745.HumanoidRootPart.user.user.Text = usernameInput.CurrentValue
+   end,
+})
 
 
 
@@ -716,7 +665,12 @@ local Toggle = ItemTab:CreateToggle({
       if sellall then
          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(466.2166442871094, 150.62973022460938, 230.4716796875);
          wait(3.5)
-         workspace:WaitForChild("world"):WaitForChild("npcs"):WaitForChild("Marc Merchant"):WaitForChild("merchant"):WaitForChild("sellall"):InvokeServer()
+         for _, v in pairs(workspace.world.npcs:GetChildren()) do
+            if v:IsA('Model') and v.Name == 'Marc Merchant' then
+               fireproximityprompt(v.dialogprompt)
+               v:WaitForChild("merchant"):WaitForChild("sellall"):InvokeServer()
+            end
+         end
       end
    end,
 })
@@ -736,10 +690,15 @@ local Toggle = ItemTab:CreateToggle({
                wait(.2)
                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
                wait(.2)
-               local remote = workspace.world.npcs["Marc Merchant"].merchant.sell
-               local arguments = {}
-               local results = remote:InvokeServer(unpack(arguments))
-               wait(.5)
+               for _, v in pairs(workspace.world.npcs:GetChildren()) do
+                  if v:IsA('Model') and v.Name == 'Marc Merchant' then
+                     fireproximityprompt(v.dialogprompt)
+                     local remote = v.merchant.sell
+                     local arguments = {}
+                     local results = remote:InvokeServer(unpack(arguments))
+                     wait(.5)
+                  end
+               end
             end
          end
       end
@@ -901,9 +860,10 @@ local Toggle = ItemTab:CreateToggle({
                wait(.5)
                for _, jack in pairs(workspace.world.npcs:GetChildren()) do
                   if jack:IsA('Model') and jack.Name == 'Jack Marrow' then
-                     local remote = jack.treasure.repairmap
-                     local arguments = {}
-                     local results = remote:InvokeServer(unpack(arguments))
+                    fireproximityprompt(v.dialogprompt)
+                    local remote = jack.treasure.repairmap
+                    local arguments = {}
+                    local results = remote:InvokeServer(unpack(arguments))
                   end
                end
             end
@@ -935,7 +895,7 @@ local Toggle = ItemTab:CreateToggle({
 local Button = ItemTab:CreateButton({
    Name = "Teleport to jack",
    Callback = function()
-      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2827.480224609375, 214.8001708984375, 1518.3900146484375)
+       game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2827.480224609375, 214.8001708984375, 1518.3900146484375)
    end,
 })
 local Section = ItemTab:CreateSection("[ Auto Enchant Settings ]")
@@ -955,23 +915,11 @@ local Toggle = ItemTab:CreateToggle({
    Callback = function(bool)
       autoenchant = bool
       local enchantF = table.unpack(EnchantsDropdown.CurrentOption)
-      local rodF = table.unpack(RodsDropdownD.CurrentOption)
-      if autoenchant then
-         if rodF == '' or enchantF == '' then
-            Rayfield:Notify({
-               Title = "Infinity Hub",
-               Content = "Please select rod in fish tab or select enchant in dropdown",
-               Duration = 5,
-               Image = 10723415766
-            })
-            return
-         end
-      end
       while autoenchant do task.wait()
          if not autoenchant then
             return
          end
-         if game:GetService("ReplicatedStorage").playerstats[game.Players.LocalPlayer.Name].Rods[rodF].Value == enchantF then
+         if game:GetService("ReplicatedStorage").playerstats[game.Players.LocalPlayer.Name].Rods[getRod()].Value == enchantF then
             Rayfield:Notify({
                Title = "Infinity Hub",
                Content = "The enchantment "..enchantF.." has been achieved!",
@@ -1014,6 +962,7 @@ local Toggle = ItemTab:CreateToggle({
          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-931.4317016601562, 225.73080444335938, -993.3056030273438)
          for _, v in pairs(workspace.world.npcs:GetChildren()) do
             if v:IsA('Model') and v.Name == 'Merlin' then
+               fireproximityprompt(v.dialogprompt)
                local remote = v.Merlin.power
                local arguments = {}
                local results = remote:InvokeServer(unpack(arguments))
@@ -1039,6 +988,7 @@ local Toggle = ItemTab:CreateToggle({
          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-931.4317016601562, 225.73080444335938, -993.3056030273438)
          for _, v in pairs(workspace.world.npcs:GetChildren()) do
             if v:IsA('Model') and v.Name == 'Merlin' then
+               fireproximityprompt(v.dialogprompt)
                local remote = v.Merlin.luck
                local arguments = {}
                local results = remote:InvokeServer(unpack(arguments))
