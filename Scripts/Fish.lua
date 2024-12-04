@@ -7,12 +7,10 @@ end
 
 
 -- variables
-getgenv().Rods = {"Abyssal Spinecaster", "Aurora Rod", "Buddy Bond Rod", "Carbon Rod", "Celestial Rod", "Destiny Rod", "Developers Rod", "Evil Pitchfork of Doom Rod", "Executive Rod", "Fast Rod", "Fischer's Rod", "Flimsy Rod", "Fortune Rod", "Fungal Rod", "Haunted Rod", "Katana Rod", "Kings Rod", "Long Rod", "Lucky Rod", "Magma Rod", "Magnet Rod", "Midas Rod", "Mystic Staff", "Mythical Rod", "No-Life Rod", "No-Life Rod [original]", "Nocturnal Rod", "Pen Rod", "Phoenix Rod", "Plastic Rod", "Precision Rod", "Rapid Rod", "Reinforced Rod", "Relic Rod", "Resourceful Rod", "Riptide Rod", "Rod Of The Depths", "Rod Of The Eternal King", "Rod Of The Forgotten Fang", "Scurvy Rod", "Seasons Rod", "Sovereign Doombringer", "Steady Rod", "Stone Rod", "Sunken Rod", "Test Rod", "Tetra Rod", "The Lost Rod", "The Twig", "Training Rod", "Trident Rod", "Ultratech Rod", "Voyager Rod", "Wisdom Rod"}
-local _Rods = getgenv().Rods
 function getRod()
    local rodsName = {}
    for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-      if v:IsA('Tool') and table.find(_Rods, v.Name) then
+      if v:IsA('Tool') and v.Name:lower():find('rod') then
          table.insert(rodsName, v.Name)
       end
    end
@@ -46,6 +44,15 @@ function SafeZone()
    safeZone.CFrame = CFrame.new(3345, 136, -165)
    safeZone.Size = Vector3.new(10, 1, 10)
 end
+function getPlayers()
+   local playerName = {}
+   for _, v in pairs(game:GetService('Players'):GetPlayers()) do
+      if v.Name ~= game.Players.LocalPlayer.Name then
+         table.insert(playerName, v.Name)
+      end
+   end
+   return playerName
+end
 local waterHeight = 128
 local offset = -1
 local platform = nil
@@ -74,7 +81,7 @@ local y = 350
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/InfinityMercury77/Library/refs/heads/main/Rayfield/source.lua'))()
 Rayfield:Notify({
    Title = "Infinity Hub",
-   Content = "have fun 😉",
+   Content = "Hello "..game.Players.LocalPlayer.Name..", I hope you like it, have fun!",
    Duration = 5,
    Image = 10723415766
 })
@@ -96,6 +103,7 @@ local RodTab = Window:CreateTab("Rod")
 local ItemTab = Window:CreateTab("Item")
 local TeleportTab = Window:CreateTab("Teleport")
 local LPlayerTab = Window:CreateTab("Player")
+local TradeTab = Window:CreateTab("Trade")
 local VisualTab = Window:CreateTab("Visual")
 local SettingsTab = Window:CreateTab("Settings")
 
@@ -182,40 +190,23 @@ local Toggle = FischTab:CreateToggle({
    end,
 })
 local Toggle = FischTab:CreateToggle({
-   Name = "Auto shake (mobile review...)",
+   Name = "Auto shake",
    CurrentValue = false,
    Flag = "",
    Callback = function(bool)
       autoShake = bool
-      while autoShake do task.wait()
-         if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
-            for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
-               if v:IsA('ScreenGui') and v.Name == 'shakeui' then
-                  for _, shakebutton in pairs(v:GetDescendants()) do
-                     if shakebutton:IsA('ImageButton') and shakebutton.Name == 'button' then
-                        shakebutton:Activated()
-                     end
-                  end
-               end
-            end
-         else
-            for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
-               if v:IsA('ScreenGui') and v.Name == 'shakeui' then
-                  for _, shakebutton in pairs(v:GetDescendants()) do
-                     if shakebutton:IsA('ImageButton') and shakebutton.Name == 'button' then
-                        shakebutton.Position = UDim2.new(0.389999986, 0,0.469999999, 0)
-                     end
-                  end
-                  wait(.2)
-                  mousemoveabs(x, y)
-                  vim:SendMouseButtonEvent(x, y, 0, true, game, 0)
-                  wait()
-                  vim:SendMouseButtonEvent(x, y, 0, false, game, 0)
-                  wait(.5)
-               end
+      game:GetService('Players').LocalPlayer.PlayerGui.DescendantAdded:Connect(function(Descendant)
+         if autoShake then
+            if Descendant.Name == 'button' and Descendant.Parent.Name == 'safezone' then
+               task.wait()
+               game:GetService('GuiService').SelectedObject = Descendant
+               vim:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+               vim:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+               task.wait()
+               game:GetService('GuiService').SelectedObject = nil
             end
          end
-      end
+      end)
    end,
 })
 local Toggle = FischTab:CreateToggle({
@@ -232,11 +223,14 @@ local Toggle = FischTab:CreateToggle({
    end,
 })
 local Toggle = FischTab:CreateToggle({
-   Name = "Auto nuke minigame",
+   Name = "Freeze character",
    CurrentValue = false,
    Flag = "",
    Callback = function(bool)
-
+      freeze = bool
+      while freeze do task.wait()
+         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
+      end
    end,
 })
 local Section = FischTab:CreateSection("[ Position Settings ]")
@@ -403,14 +397,12 @@ local Toggle = LPlayerTab:CreateToggle({
    Flag = "",
    Callback = function(bool)
       setWalkAndJump = bool
-      while setWalkAndJump do task.wait()
-         if setWalkAndJump then
-            game:GetService('Players').LocalPlayer.Character.Humanoid.WalkSpeed = WalkSpeedInput.CurrentValue
-            game:GetService('Players').LocalPlayer.Character.Humanoid.JumpPower = JumpPowerInput.CurrentValue
-         else
-            game:GetService('Players').LocalPlayer.Character.Humanoid.WalkSpeed = 16
-            game:GetService('Players').LocalPlayer.Character.Humanoid.JumpPower = 50
-         end
+      if setWalkAndJump then
+         game:GetService('Players').LocalPlayer.Character.Humanoid.WalkSpeed = WalkSpeedInput.CurrentValue
+         game:GetService('Players').LocalPlayer.Character.Humanoid.JumpPower = JumpPowerInput.CurrentValue
+      else
+         game:GetService('Players').LocalPlayer.Character.Humanoid.WalkSpeed = 16
+         game:GetService('Players').LocalPlayer.Character.Humanoid.JumpPower = 50
       end
    end,
 })
@@ -436,10 +428,10 @@ local Toggle = LPlayerTab:CreateToggle({
       walkon = bool
       if walkon then
          createPlatform()
-     else
+      else
          removePlatform()
-     end
-     game:GetService("RunService").RenderStepped:Connect(function()
+      end
+      game:GetService("RunService").RenderStepped:Connect(function()
          if walkon and platform then
             local player = game.Players.LocalPlayer
             local character = player.Character
@@ -453,7 +445,7 @@ local Toggle = LPlayerTab:CreateToggle({
                  end
              end
          end
-     end)
+      end)
    end,
 })
 local Toggle = LPlayerTab:CreateToggle({
@@ -496,6 +488,48 @@ local Button = LPlayerTab:CreateButton({
       game:GetService('UserInputService').JumpRequest:connect(function()
          game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
       end)
+   end,
+})
+
+
+
+local Section = TradeTab:CreateSection("[ Trade Settings ]")
+local PlayerDropdown = TradeTab:CreateDropdown({
+   Name = "Select Player",
+   Options = getPlayers(),
+   CurrentOption = '',
+   MultipleOptions = false,
+   Flag = "",
+   Callback = function(Options)
+   end,
+})
+local Toggle = TradeTab:CreateToggle({
+   Name = "Auto trade player",
+   CurrentValue = false,
+   Flag = "",
+   Callback = function(bool)
+      autotrade = bool
+      local playersName = table.unpack(PlayerDropdown.CurrentOption)
+      while autotrade do task.wait()
+         for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if v:IsA('Tool') and table.find(getFish(), v.Name) then
+               if not autotrade then return end
+               game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+               wait(.2)
+               local remote = game.Players.LocalPlayer.Character[v.Name].offer
+               local arguments = {
+                  [1] = game:GetService("Players")[playersName]
+               }
+               remote:FireServer(unpack(arguments))
+            end
+         end
+      end
+   end,
+})
+local Button = TradeTab:CreateButton({
+   Name = "Refresh dropdown",
+   Callback = function()
+      PlayerDropdown:Refresh(getPlayers())
    end,
 })
 
@@ -598,7 +632,7 @@ local Button = RodTab:CreateButton({
 
 
 
-local Section = VisualTab:CreateSection("[ Clone Rod beta ]")
+local Section = VisualTab:CreateSection("[ Clone Rod ]")
 local Paragraph = VisualTab:CreateParagraph({
     Title = "How it works",
     Content = "You select the sticks you want below in the dropdown and it sees if anyone on the server has them. If they do, it clones them and puts them in your inventory (visual effect)."
@@ -648,6 +682,25 @@ local Button = VisualTab:CreateButton({
             v:Destroy()
         end
     end
+   end,
+})
+local Section = VisualTab:CreateSection("[ Character Options ]")
+local oldLevel = ''
+local oldLevelText = ''
+local Button = VisualTab:CreateButton({
+   Name = "Infinite level",
+   Callback = function()
+      for _, v in pairs(game:GetDescendants()) do
+         if v:IsA('NumberValue') and v.Name == 'Level' then
+            oldLevel = v.Value
+            wait(.2)
+            v.Value = 9e9
+         end
+      end
+      oldLevelText = oldLevel
+      game.Players.LocalPlayer.Character.HumanoidRootPart.user.level.Text = '9000000000'
+      print(oldLevel)
+      print(oldLevelText)
    end,
 })
 
@@ -724,7 +777,7 @@ local Button = ItemTab:CreateButton({
    end,
 })
 local Button = ItemTab:CreateButton({
-   Name = "Use totem",
+   Name = "Equip totem",
    Callback = function()
       local totem = table.unpack(TotemsDropdown.CurrentOption)
       for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
@@ -888,7 +941,7 @@ local Button = ItemTab:CreateButton({
 local Section = ItemTab:CreateSection("[ Auto Enchant Settings ]")
 local EnchantsDropdown = ItemTab:CreateDropdown({
    Name = "Select enchant",
-   Options = {"Sea King", "Swift", "Ghastly", "Lucky", "Divine", "Mutated", "Unbreakable", "Steady", "Blessed", "Wormhole", "Resilient", "Controlled", "Storming", "Breezed", "Insight", "Scrapper", "Quality", "Hasty", "Noir", "Abyssal"},
+   Options = {"Sea King", "Swift", "Ghastly", "Lucky", "Divine", "Mutated", "Unbreakable", "Steady", "Blessed", "Wormhole", "Resilient", "Controlled", "Storming", "Breezed", "Insight", "Scrapper", "Quality", "Hasty", "Noir", "Abyssal", "Clever"},
    CurrentOption = '',
    MultipleOptions = false,
    Flag = "",
@@ -1020,11 +1073,38 @@ local Toggle = ItemTab:CreateToggle({
    CurrentValue = false,
    Flag = "",
    Callback = function(bool)
-      buycage = bool
-      while buycage do task.wait()
+      buybait = bool
+      while buybait do task.wait()
          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1466.0634765625, 133.223876953125, 678.8411865234375)
          for _, v in pairs(workspace.world.interactables:GetDescendants()) do
             if v:IsA('Model') and v.Name == 'Bait Crate' then
+               for _, x in pairs(v:GetDescendants()) do
+                  if x:IsA('ProximityPrompt') and x.Name == 'purchaserompt' then
+                     fireproximityprompt(x)
+                  end
+               end
+            end
+         end
+         for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.over:GetDescendants()) do
+            if v:IsA("ImageButton") or v:IsA("TextButton") and v.Name == 'confirm' then
+               for i, Signal in pairs(Signals) do
+                   firesignal(v[Signal])
+               end
+           end
+         end
+      end
+   end,
+})
+local Toggle = ItemTab:CreateToggle({
+   Name = "Auto buy quality bait crate",
+   CurrentValue = false,
+   Flag = "",
+   Callback = function(bool)
+      buyqualitybait = bool
+      while buyqualitybait do task.wait()
+         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-173.23184204101562, 143.21090698242188, 1932.7012939453125)
+         for _, v in pairs(workspace.world.interactables:GetDescendants()) do
+            if v:IsA('Model') and v.Name == 'Quality Bait Crate' then
                for _, x in pairs(v:GetDescendants()) do
                   if x:IsA('ProximityPrompt') and x.Name == 'purchaserompt' then
                      fireproximityprompt(x)
