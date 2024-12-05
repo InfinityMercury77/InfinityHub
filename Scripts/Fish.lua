@@ -143,8 +143,8 @@ local Toggle = FischTab:CreateToggle({
             if v:IsA('ScreenGui') and v.Name == 'shakeui' then
                for _, x in pairs(v:GetDescendants()) do
                   if x:IsA('ImageButton') and x.Name == 'button' then
-                     wait(.15)
                      game:GetService('GuiService').SelectedObject = x
+                     wait(.15)
                      vim:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
                      vim:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
                      wait()
