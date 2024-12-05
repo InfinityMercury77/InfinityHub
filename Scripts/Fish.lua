@@ -144,10 +144,10 @@ local Toggle = FischTab:CreateToggle({
                for _, x in pairs(v:GetDescendants()) do
                   if x:IsA('ImageButton') and x.Name == 'button' then
                      game:GetService('GuiService').SelectedObject = x
-                     wait(.15)
+                     wait(.3)
                      vim:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
                      vim:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-                     wait()
+                     wait(.1)
                      game:GetService('GuiService').SelectedObject = nil
                   end
                end
