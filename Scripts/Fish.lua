@@ -138,22 +138,18 @@ local Toggle = FischTab:CreateToggle({
    Flag = "",
    Callback = function(bool)
       autoshake = bool
-      while autoshake do task.wait()
-         for _, v in pairs(game:GetService('Players').LocalPlayer.PlayerGui:GetChildren()) do
-            if v:IsA('ScreenGui') and v.Name == 'shakeui' then
-               for _, x in pairs(v:GetDescendants()) do
-                  if x:IsA('ImageButton') and x.Name == 'button' then
-                     game:GetService('GuiService').SelectedObject = x
-                     wait(.3)
-                     vim:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
-                     vim:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-                     wait(.1)
-                     game:GetService('GuiService').SelectedObject = nil
-                  end
-               end
-            end
+      game.Players.LocalPlayer.PlayerGui.DescendantAdded:Connect(function(Descendant)
+         if autoshake then
+             if Descendant.Name == 'button' and Descendant.Parent.Name == 'safezone' then
+                 task.wait(0.3)
+                 game:GetService('GuiService').SelectedObject = Descendant
+                 vim:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+                 vim:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+                 task.wait(0.1)
+                 GuiService.SelectedObject = nil
+             end
          end
-      end
+      end)
    end,
 })
 local Toggle = FischTab:CreateToggle({
