@@ -146,7 +146,7 @@ local Toggle = FischTab:CreateToggle({
                  vim:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
                  vim:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
                  task.wait(0.1)
-                 GuiService.SelectedObject = nil
+                 game:GetService('GuiService').SelectedObject = nil
              end
          end
       end)
